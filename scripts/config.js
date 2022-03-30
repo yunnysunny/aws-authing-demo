@@ -1,0 +1,7 @@
+const app_id = '6243e61458b3c60aa1ec0e7d';
+const app_name = 'aws-demo-yunnysunny';
+const sp_redirect_url = 'https://blog.whyun.com/aws-authing-demo';
+
+const aws_api_id = 'sy7yaxw86d';
+const region = 'cn-north-1';
+const aws_identity_pool_id = 'cn-north-1:20716676-b43c-46d5-a30e-c47aff75ef3c';
