@@ -1,0 +1,44 @@
+name: Pages
+
+on:
+  push:
+    # branches:
+    #   - master  # default branch
+    paths:
+        - "build/**"
+        - "frontend/**"
+        - .github/workflows/pages.yml
+env:
+  AUTHING_APP_ID: ${{ secrets.AUTHING_APP_ID }}
+  AUTHING_APP_NAME: ${{ secrets.AUTHING_APP_NAME }}
+  SP_REDIRECT_URL: ${{ secrets.SP_REDIRECT_URL }}
+  AWS_LAMBDA_AUTH_API_ID: ${{ secrets.AWS_LAMBDA_AUTH_API_ID }}
+  AWS_OIDC_AUTH_API_ID: ${{ secrets.AWS_OIDC_AUTH_API_ID }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  AWS_IDENTITY_POOL_ID: ${{ secrets.AWS_IDENTITY_POOL_ID }}
+  AWS_BUCKET_NAME_TEST: ${{ secrets.AWS_BUCKET_NAME_TEST }}
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
+      - name: Install Dependencies
+        run: yarn install
+      - name: Config
+        run: npm run config:front
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend

@@ -10,7 +10,6 @@
   "author": "SAM CLI",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.2",
     "jose": "^1.28.1",
     "jsonwebtoken": "^8.5.1"
   },
