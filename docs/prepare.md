@@ -5,13 +5,56 @@ typora-copy-images-to: ./images
 # 准备工作
 
 ## 1. 创建bucket
+
+### 1.1 api 用 bucket
+
 打开 https://console.amazonaws.cn/s3/buckets ，选择 **Create bucket** 按钮。
 
 ![image-20220330130035323](images/image-20220330130035323.png)
 
-**图 1.1**
+**图 1.1.1**
 
-打开新页面，输入 `Bucket name` 后，点击右下角 **Create bucket** 按钮，即可完成创建过程，将这个 `Bucket name` 记录下来，以备后用。
+打开新页面，输入 `Bucket name` 后，点击右下角 **Create bucket** 按钮，即可完成创建过程，将这个 `Bucket name` 记录下来，后续部署 api gate 的代码时要用到这个 bucket。
+
+### 1.2 前端测试用 bucket
+
+使用同样的步骤创建另外一个 bucket，这个 bucket 单独用于前端项目测试 s3 的下载 API。同时由于当前 bucket 需要在前端访问，我们需要对其做跨域允许设置。创建完成后，在列表中点击 bucket 名字，选择 **Permissions** 选项卡，然后下拉滚动条，找到 **Cross-origin resource sharing (CORS)** 区域，点击 **Edit** 按钮，
+
+![image-20220401181711089](images/image-20220401181711089.png)
+
+**图 1.2.1**
+
+输入如下 JSON 代码：
+
+```json
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "HEAD",
+            "GET",
+            "PUT",
+            "POST",
+            "DELETE"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [
+            "ETag",
+            "x-amz-meta-custom-header"
+        ]
+    }
+]
+```
+
+**代码 1.2.1**
+
+然后点击 **Save changes** 按钮保存。
+
+
 
 ## 2. 获取 AWS 凭证
 
@@ -77,7 +120,7 @@ typora-copy-images-to: ./images
 
 接着往下看 `授权配置` 部分，本测试项目的代码选择使用 OIDC 的 implicit 授权模式，使用授权返回的 `id_token` 字段用于 aws 的后续鉴权。签名算法选择了 RSAWithSHA256。同样记着，修改完成之后点击保存按钮。
 
-![image-20220330142531015](images/image-20220330142531015.png)
+![image-20220330142531015](images/auth_config_app.jpg)
 
 图 3.5
 
@@ -127,92 +170,78 @@ typora-copy-images-to: ./images
 
 ![image-20220330154459772](images/image-20220330154459772.png)
 
-图 6.1
+**图 6.1**
 
 在打开的页面中点击 **Add permissions** 按钮，在弹出菜单中选择 `Attach policies` 。
 
 ![image-20220330154639297](images/image-20220330154639297.png)
 
-图 6.2
+**图 6.2**
 
 然后在打开的页面中点击 **Create Policy** 按钮。
 
 ![image-20220330154813695](images/image-20220330154813695.png)
 
-图 6.3
+**图 6.3**
 
 
 
-在新打开的页面中展开 Service 表单项，搜索 `polly`，然后选择给出的 `Polly` 服务
+在新打开的页面中展开 Service 表单项，搜索 `s3`，然后选择给出的 `s3` 服务
 
 > 注意 **图 6.3** 的页面不要关闭，这里创建策略的流程完成之后，并不会和当前操作的角色进行自动关联，你必须保留 图 6.3 页面，以待后续进行关联。
 
-![image-20220330155020492](images/image-20220330155020492.png)
+![image-20220401182239945](images/image-20220401182239945.png)
 
-图 6.4
+**图 6.4**
 
-在 Actions 表单项中勾选 `All Polly actions (polly:*)`
+在 Actions 表单项中搜索 `getobject`，然后勾选 `GetObject`
 
-![image-20220330155206727](images/image-20220330155206727.png)
+![image-20220401182339747](images/image-20220401182339747.png)
 
-图 6.5
+**图 6.5**
 
 在 Resources 表单项中选择 `All resources`。
 
 ![image-20220330155344283](images/image-20220330155344283.png)
 
-图 6.6
+**图 6.6**
 
 接着点击 **Add additional permissions** ，
 
 ![image-20220330155547725](images/image-20220330155547725.png)
 
-图 6.7
+**图 6.7**
 
-在弹出的 `Select service` 面板中输入 `s3`
 
-在表单项 Actions 中输入 `PutObject`
 
-![image-20220330155920834](images/image-20220330155920834.png)
 
-图 6.8
-
-然后勾选 `PutObject` 选项
-
-![image-20220330160036239](images/image-20220330160036239.png)
-
-最后操作 s3 服务的 `Resources` 表单项，跟图 6.6 中一致，都选择  `All resources`。
-
-![image-20220330160252681](images/image-20220330160252681.png)
-
-图 6.9
 
 上述就把权限相关的配置设定完成，然后点击 **Next: Tags** 按钮。
 
 ![image-20220330160342635](images/image-20220330160342635.png)
 
-图 6.10
+**图 6.8**
 
 再点击 **Next: Review** 按钮。
 
 ![image-20220330160453883](images/image-20220330160453883.png)
 
-图 6.11
+**图 6.9**
 
 在 `Name` 表单项中填写策略的名字，然后点击 **Create policy** 按钮。
 
 ![image-20220330160630879](images/image-20220330160630879.png)
 
-图 6.12
+**图 6.10**
 
 这样当前策略就创建完成了。接着就是把策略和图 6.1 中的角色进行关联，回到图 6.3 的页面，点击其上面的刷新按钮，然后就会出现刚才创建完成的策略，然后勾选它，最后点击按钮 **Attach policies**。
 
 ![image-20220330161439893](images/image-20220330161439893.png)
 
-图 6.13
+**图 6.11**
 
 添加成功后，会显示在角色的允许策略列表中显示刚才创建的策略。
 
 ![image-20220330161636360](images/image-20220330161636360.png)
 
-图 6.14
+**图 6.12**
