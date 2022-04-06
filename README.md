@@ -42,4 +42,4 @@ lambda 函数用于给 API Gateway 中的接口进行鉴权，对接网站和 Au
 
 ## 开发指南
 
-项目配置文件的生成说明，参见[这里](docs/prepare.md)。
+项目配置文件的生成说明，参见[这里](docs/dev_guide.md)。
