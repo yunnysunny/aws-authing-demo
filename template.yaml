@@ -46,7 +46,7 @@ Resources:
   MyFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./protected-api/
+      CodeUri: ./oidc-test/
       Events:
         GetRoot:
           Properties:
