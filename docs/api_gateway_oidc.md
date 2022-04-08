@@ -41,6 +41,8 @@ typora-copy-images-to: ./images
 
 ![image-20220408103543143](images/image-20220408103543143.png)
 
+## 添加 API 路由
+
 在左侧菜单栏点击 `Routes`，然后点击 **Create**
 
 ![image-20220408103646015](images/image-20220408103646015.png)
@@ -73,6 +75,8 @@ method 选择 `GET`，路径输入 `/oidc-test`（路径名可以随便写，这
 
 ![image-20220408104917694](images/image-20220408104917694.png)
 
+## 添加 API 授权
+
 点击左侧菜单 `Authorization`，然后点击 **Create and attach authorizer**
 
 ![image-20220408130318902](images/image-20220408130318902.png)
@@ -82,6 +86,8 @@ method 选择 `GET`，路径输入 `/oidc-test`（路径名可以随便写，这
 ![image-20220408133223447](images/image-20220408133223447.png)
 
 ## 配置 API 跨域
+
+> 主要是在前端测试使用，如果 API 不在前端调用，可以忽略此节
 
 点击 `CORS`，然后点击 **Configure** 按钮
 
@@ -94,7 +100,7 @@ allow-origin 和 allow-headers 设置为 `*`， allow-methods 设置为 GET 和 
 ## 使用 curl 测试
 
 ```shell
-curl -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJIWWxKMFlZX1A2UWxUNzV3alVPUXlnMzV4ZGoyUi1qN2VNOEV4VS1XZW8ifQ.eyJuYmYiOjE2NDkzMzMxMDgsImp0aSI6IlhlTVFiUWczTWtMQXE2T2RCMXllZyIsInN1YiI6IjYyNDE4MDM2NDgzMjc5N2JkOTBlNjcwYiIsImlhdCI6MTY0OTMzNTEwOCwiZXhwIjoxNjUwNTQ0NzA4LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIiwiaXNzIjoiaHR0cHM6Ly9hd3MtZGVtby15dW5ueXN1bm55LmF1dGhpbmcuY24vb2lkYyIsImF1ZCI6IjYyNDNlNjE0NThiM2M2MGFhMWVjMGU3ZCJ9.vCUo6dqOT-TFgUKlI7M6q6kfIJt_U4s4QRF4pMEp0yx68_cW3jkECC79dk88gulUNw7KH7SVsUkAC73RGcnxdJyiSf36obHu0jydpCaZOSrHEeegRaQEt4by3Kt-nVENpDj-mXj59_s5KTkA3G6PZAyPKuc81qp2gEynTzcCcX5jdbPtjN_L2wY-7104aJKg_ZqXI2Q7Z-jCZ_H2IKR1trNGmL77NYEjs5wpE3wplFZgleQ0YDfV3NTPpG_1YE23VGqN3nkeLSEPCNQU5PEuaPoERY504F03vS49VtkxMby19HCdvONyenLH8H7gFmEEtrFsIb-PegzsZitPW0pgAQ" https://58li4spdvj.execute-api.cn-north-1.amazonaws.com.cn/oidc-test
+curl -H "Authorization:  ${access_token}" https://${api_id}.execute-api.cn-north-1.amazonaws.com.cn/oidc-test
 ```
 
-将链接中的 api id 换成刚才新建的 ID 。
+将链接中的 `${api_id}` 换成刚才在 API Gateway 新建的 ID 。`${access_token}` 换成 oidc 授权完成后得到的 access token。
