@@ -8,7 +8,9 @@
     "config:front": "node build/config_frontend.js",
     "config:sam": "node build/config_sam.js",
     "config:key": "node build/config_auth_key.js",
-    "config": "make config"
+    "config": "make config",
+    "build": "sam build",
+    "server": "sam local start-api -p 4000"
   },
   "repository": {
     "type": "git",
