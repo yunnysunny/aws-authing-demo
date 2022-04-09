@@ -30,7 +30,7 @@ typora-copy-images-to: ./images
 
 **表 1.1**
 
-其中 `AUTHING_APP_ID` `AUTHING_APP_NAME` `AUTHING_APP_SECRET` `AUTHING_PUB_KEY` 在 Authing 创建完应用后会得到。`AWS_ACCESS_KEY_ID` `AWS_SECRET_ACCESS_KEY` 在拥有 aws 账号后可得。`AWS_IDENTITY_POOL_ID` 需要在 aws 中创建身份池得到。`AWS_BUCKET_NAME_DEPLOY` `AWS_BUCKET_NAME_TEST` 在创建 bucket 后可得。`SP_REDIRECT_URL` 是你集成网站上定义的回调接口地址。`AWS_LAMBDA_AUTH_API_ID` 需要在部署完 api 代码后，才能在 aws `API Gateway` [后台](https://console.amazonaws.cn/apigateway/main/apis) 查询到。
+其中 `AUTHING_APP_ID` `AUTHING_APP_NAME` `AUTHING_APP_SECRET` `AUTHING_PUB_KEY` 在 Authing 创建完应用后会得到。`AWS_ACCESS_KEY_ID` `AWS_SECRET_ACCESS_KEY` 在拥有 aws 账号后可得。`AWS_IDENTITY_POOL_ID` 需要在 aws 中创建身份池得到。`AWS_BUCKET_NAME_DEPLOY` `AWS_BUCKET_NAME_TEST` 在创建 bucket 后可得。`SP_REDIRECT_URL` 是你集成网站上定义的回调接口地址。`AWS_LAMBDA_AUTH_API_ID` 需要在部署完 api 代码后，才能在 aws `API Gateway` [后台](https://console.amazonaws.cn/apigateway/main/apis) 查询到。`AWS_OIDC_AUTH_API_ID` 需要手动在 `API Gateway` 后台创建，具体参见[文档](api_gateway_oidc.md) 。
 
 ![image-20220401190149174](images/image-20220401190149174.png)
 
