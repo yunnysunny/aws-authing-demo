@@ -31,22 +31,22 @@ Resources:
         AllowMethods:
           - GET
           - OPTIONS
-      Auth:
-        Authorizers:
-          MyOauth2Authorizer:
-            AuthorizationScopes:
-              - openid
-            IdentitySource: $request.header.Authorization
-            JwtConfiguration:
-              audience:
-                - !Ref AuthingAppId
-              issuer: !Ref AuthingAppIssuer
-        DefaultAuthorizer: MyOauth2Authorizer
+      # Auth:
+      #   Authorizers:
+      #     MyOauth2Authorizer:
+      #       AuthorizationScopes:
+      #         - openid
+      #       IdentitySource: $request.header.Authorization
+      #       JwtConfiguration:
+      #         audience:
+      #           - !Ref AuthingAppId
+      #         issuer: !Ref AuthingAppIssuer
+      #   DefaultAuthorizer: MyOauth2Authorizer
       StageName: Prod
   MyFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./protected-api/
+      CodeUri: ./oidc-test/
       Events:
         GetRoot:
           Properties:
